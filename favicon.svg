@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="6" fill="#0a0a0b"/>
+  <!-- Terminal angle bracket prompt --> 
+  <path d="M6 11 L13 16 L6 21" stroke="url(#g)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Underscore cursor -->
+  <rect x="15" y="19.5" width="7" height="2.5" rx="1" fill="#22d3ee" opacity="0.9"/>
+  <!-- Dot grid pattern - tech texture -->
+  <circle cx="25" cy="8" r="1" fill="#22d3ee" opacity="0.3"/>
+  <circle cx="29" cy="8" r="1" fill="#a78bfa" opacity="0.3"/>
+  <circle cx="25" cy="12" r="1" fill="#a78bfa" opacity="0.2"/>
+  <circle cx="29" cy="12" r="1" fill="#22d3ee" opacity="0.2"/>
+</svg>
