@@ -10,11 +10,16 @@ Source for [ayushbuilds.dev](https://ayushbuilds.dev), a static site.
 ## Run locally
 
 ```bash
-npx --yes serve .
+npx --yes serve public
 ```
 
 ## Lint locally
 
 ```bash
-npx --yes html-validate@9 "*.html"
+npx --yes html-validate@9 "public/*.html"
 ```
+
+## Layout
+
+- `public/` holds the site files that get uploaded.
+- `wrangler.jsonc` tells Cloudflare the Worker name and that `public/` is the static assets directory.
