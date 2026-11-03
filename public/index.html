@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<title>Ayush Builds — Coming Soon</title>
-<meta name="description" content="DevOps, Software Engineering & Robotics — tutorials, deep dives, and real-world builds. Coming soon.">
+<title>Ayush Builds — DevOps, Software &amp; Robotics Projects</title>
+<meta name="description" content="Ayush Saxena's projects in DevOps, software engineering and robotics: a ROS 2 air quality rover, a FastAPI + Docker repo analyzer, and more.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -32,7 +32,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     overflow-x: hidden;
     position: relative;
   }
@@ -73,7 +73,7 @@
     z-index: 1;
     max-width: 720px;
     width: 100%;
-    padding: 2rem;
+    padding: 5rem 2rem 2rem;
     animation: fadeUp 1s ease-out;
   }
 
@@ -217,12 +217,81 @@
     height: 18px;
   }
 
+  /* Projects */
+  .section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 4.5rem 0 1.25rem;
+  }
+
+  .project {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .project:hover {
+    border-color: var(--accent-dim);
+    transform: translateY(-2px);
+  }
+
+  .project h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .project p {
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 3px 10px;
+    border-radius: 100px;
+    background: var(--accent-glow);
+    color: var(--accent);
+  }
+
+  .project-link {
+    color: var(--accent);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .project-link:hover { text-decoration: underline; }
+
+  .roadmap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
+  }
+
   /* Status bar */
   .status {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: relative;
+    width: 100%;
+    margin-top: 3rem;
     display: flex;
     justify-content: center;
     padding: 16px;
@@ -272,21 +341,21 @@
     <span class="cursor"></span>
   </div>
 
-  <h1>Something<br><span class="highlight">is brewing.</span></h1>
+  <h1>I build it.<br><span class="highlight">Then I write it up.</span></h1>
 
   <p class="subtitle">
-    <strong>DevOps, Software Engineering &amp; beyond</strong> — real-world tutorials, deep dives, and hands-on builds from the trenches. Launching soon.
+    I'm Ayush. <strong>DevOps, software engineering &amp; robotics</strong> — hands-on builds, documented as I go. Below are projects I've already shipped; the DevOps ladder is next.
   </p>
 
   <div class="topics">
     <span class="pill">Docker</span>
     <span class="pill">CI/CD</span>
-    <span class="pill">Kubernetes</span>
     <span class="pill">FastAPI</span>
+    <span class="pill">PostgreSQL</span>
     <span class="pill">ROS2</span>
     <span class="pill">Python</span>
     <span class="pill">Linux</span>
-    <span class="pill">ML Infra</span>
+    <span class="pill">Raspberry Pi</span>
   </div>
 
   <div class="links">
@@ -303,6 +372,56 @@
       Contact
     </a>
   </div>
+
+  <h2 class="section-title">~/projects</h2>
+
+  <article class="project">
+    <h3>AAQR — Autonomous Air Quality Rover</h3>
+    <p>A Roomba-based robot that navigates waypoints with ROS 2 and Nav2, pauses at each stop, and streams air quality readings from a Raspberry Pi sensor node to a Flask server with a live dashboard. Built in 2023–24 across two repos, now consolidated into one documented project.</p>
+    <div class="tags">
+      <span class="tag">ROS 2</span>
+      <span class="tag">Nav2</span>
+      <span class="tag">Python</span>
+      <span class="tag">Flask</span>
+      <span class="tag">SQLite</span>
+      <span class="tag">Raspberry Pi</span>
+    </div>
+    <a class="project-link" href="https://github.com/ayushs-dev/aaqr-rover" target="_blank" rel="noopener">View on GitHub →</a>
+  </article>
+
+  <article class="project">
+    <h3>GitHub Repo Analyzer</h3>
+    <p>Type any public repo as owner/repo and get its stars, forks, language breakdown and top contributors. A FastAPI backend caches GitHub results in PostgreSQL for an hour, a React frontend renders them, and a single docker compose command runs the whole stack.</p>
+    <div class="tags">
+      <span class="tag">FastAPI</span>
+      <span class="tag">PostgreSQL</span>
+      <span class="tag">React</span>
+      <span class="tag">Vite</span>
+      <span class="tag">Tailwind</span>
+      <span class="tag">Docker Compose</span>
+    </div>
+    <a class="project-link" href="https://github.com/ayushs-dev/Github-Repo-Analyzer" target="_blank" rel="noopener">View on GitHub →</a>
+  </article>
+
+  <article class="project">
+    <h3>MoodSick</h3>
+    <p>A group project for CIS 600 (Social Media and Data Mining) built on the GTZAN music-genre dataset and a Spotify songs dataset. Ships with a one-command conda environment setup and a data exploration notebook.</p>
+    <div class="tags">
+      <span class="tag">Python</span>
+      <span class="tag">Jupyter</span>
+      <span class="tag">Conda</span>
+    </div>
+    <a class="project-link" href="https://github.com/ayushs-dev/MoodSick" target="_blank" rel="noopener">View on GitHub →</a>
+  </article>
+
+  <h2 class="section-title">~/next-up</h2>
+
+  <ul class="roadmap">
+    <li class="pill">Deploy Repo Analyzer with CI/CD</li>
+    <li class="pill">Terraform on AWS</li>
+    <li class="pill">Kubernetes + Helm</li>
+    <li class="pill">Prometheus + Grafana</li>
+  </ul>
 </div>
 
 <div class="status">
@@ -311,8 +430,8 @@
     <span>domain: registered</span>
   </div>
   <div class="status-item">
-    <div class="status-dot building"></div>
-    <span>site: building</span>
+    <div class="status-dot"></div>
+    <span>site: live</span>
   </div>
   <div class="status-item">
     <span>© 2026 ayushbuilds.dev</span>
