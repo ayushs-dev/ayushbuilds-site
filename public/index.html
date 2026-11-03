@@ -14,15 +14,18 @@
     --surface: #111113;
     --border: #1e1e22;
     --text: #e8e6e3;
-    --text-muted: #6b6b76;
+    --text-muted: #8a8a96;
     --accent: #22d3ee;
     --accent-dim: #0e7490;
     --accent-glow: rgba(34, 211, 238, 0.15);
     --green: #4ade80;
     --orange: #fb923c;
+    --purple: #a78bfa;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
 
   body {
     font-family: 'Outfit', sans-serif;
@@ -37,7 +40,7 @@
     position: relative;
   }
 
-  /* Grid background */
+  /* Faint grid under the network canvas */
   body::before {
     content: '';
     position: fixed;
@@ -46,7 +49,7 @@
       linear-gradient(var(--border) 1px, transparent 1px),
       linear-gradient(90deg, var(--border) 1px, transparent 1px);
     background-size: 60px 60px;
-    opacity: 0.4;
+    opacity: 0.3;
     pointer-events: none;
   }
 
@@ -68,12 +71,35 @@
     50% { transform: translate(-80px, 60px); }
   }
 
+  /* Live network canvas: nodes, links and packets */
+  #net {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  /* Scroll progress, styled like a pipeline run bar */
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    z-index: 10;
+    background: linear-gradient(90deg, var(--green), var(--accent), var(--purple));
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    box-shadow: 0 0 12px var(--accent);
+  }
+
   .container {
     position: relative;
     z-index: 1;
-    max-width: 720px;
+    max-width: 800px;
     width: 100%;
-    padding: 5rem 2rem 2rem;
+    padding: 4rem 2rem 2rem;
     animation: fadeUp 1s ease-out;
   }
 
@@ -122,10 +148,16 @@
   }
 
   h1 .highlight {
-    background: linear-gradient(135deg, var(--accent), #a78bfa);
+    background: linear-gradient(120deg, var(--accent), var(--purple), var(--green), var(--accent));
+    background-size: 300% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: shimmer 10s linear infinite;
+  }
+
+  @keyframes shimmer {
+    to { background-position: 300% 0; }
   }
 
   .subtitle {
@@ -134,7 +166,7 @@
     color: var(--text-muted);
     line-height: 1.7;
     max-width: 520px;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
     animation: fadeUp 1s ease-out 0.5s both;
   }
 
@@ -143,12 +175,71 @@
     font-weight: 600;
   }
 
+  /* Hero terminal window */
+  .term {
+    background: rgba(17, 17, 19, 0.85);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(34, 211, 238, 0.04);
+    animation: fadeUp 1s ease-out 0.55s both;
+  }
+
+  .term-bar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  .term-bar i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+
+  .term-bar i:nth-child(1) { background: #ff5f57; }
+  .term-bar i:nth-child(2) { background: #febc2e; }
+  .term-bar i:nth-child(3) { background: #28c840; }
+  .term-bar span { margin-left: 8px; }
+
+  .term-body {
+    min-height: 11.5rem;
+    padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .term-body .ps { color: var(--green); }
+  .term-body .ok { color: var(--green); }
+  .term-body .dim { color: var(--text-muted); }
+  .term-body .hl { color: var(--accent); }
+
+  .term-body .caret {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    vertical-align: text-bottom;
+    background: var(--accent);
+    animation: blink 1s step-end infinite;
+  }
+
   /* Topic pills */
   .topics {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
     animation: fadeUp 1s ease-out 0.6s both;
   }
 
@@ -167,6 +258,7 @@
     border-color: var(--accent-dim);
     color: var(--accent);
     background: var(--accent-glow);
+    transform: translateY(-2px);
   }
 
   /* Links */
@@ -217,7 +309,7 @@
     height: 18px;
   }
 
-  /* Projects */
+  /* Section headings */
   .section-title {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.8rem;
@@ -228,19 +320,110 @@
     margin: 4.5rem 0 1.25rem;
   }
 
+  .section-title::before {
+    content: '$ ';
+    color: var(--green);
+  }
+
+  .section-note {
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.7;
+    margin: -0.5rem 0 1.5rem;
+    max-width: 560px;
+  }
+
+  /* CI/CD pipeline for this site */
+  .pipeline {
+    display: flex;
+    align-items: stretch;
+    list-style: none;
+    gap: 0;
+  }
+
+  .stage {
+    position: relative;
+    flex: 1;
+    padding: 14px 12px 14px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    transition: border-color 0.4s ease, background 0.4s ease;
+  }
+
+  .stage + .stage { border-left: none; }
+  .stage:first-child { border-radius: 10px 0 0 10px; }
+  .stage:last-child { border-radius: 0 10px 10px 0; }
+
+  .stage b {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .stage small {
+    display: block;
+    font-size: 0.66rem;
+    color: var(--text-muted);
+  }
+
+  .stage .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    flex: none;
+  }
+
+  .stage.run {
+    border-color: var(--orange);
+    background: rgba(251, 146, 60, 0.07);
+  }
+
+  .stage.run .dot {
+    background: var(--orange);
+    animation: pulse 0.8s ease-in-out infinite;
+  }
+
+  .stage.wait .dot { background: var(--border); }
+  .stage.done { border-color: rgba(74, 222, 128, 0.35); }
+
+  /* Projects */
   .project {
+    --mx: 50%;
+    --my: 0%;
+    position: relative;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.5rem;
     margin-bottom: 1rem;
+    overflow: hidden;
     transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  /* Cursor-following spotlight */
+  .project::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(360px circle at var(--mx) var(--my), var(--accent-glow), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
   }
 
   .project:hover {
     border-color: var(--accent-dim);
     transform: translateY(-2px);
   }
+
+  .project:hover::before { opacity: 1; }
+
+  .project > * { position: relative; }
 
   .project h3 {
     font-size: 1.25rem;
@@ -280,11 +463,71 @@
 
   .project-link:hover { text-decoration: underline; }
 
+  /* Roadmap queue */
   .roadmap {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 10px;
     list-style: none;
+  }
+
+  .job {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .job .state {
+    margin-left: auto;
+    font-size: 0.68rem;
+    padding: 2px 10px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+  }
+
+  .job.next {
+    color: var(--text);
+    border-color: rgba(251, 146, 60, 0.45);
+  }
+
+  .job.next .state {
+    color: var(--orange);
+    border-color: rgba(251, 146, 60, 0.45);
+  }
+
+  .job .spin {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    flex: none;
+  }
+
+  .job.next .spin {
+    border-color: rgba(251, 146, 60, 0.25);
+    border-top-color: var(--orange);
+    animation: spin 0.9s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Scroll reveal, only armed when JS is running */
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .js .reveal.in {
+    opacity: 1;
+    transform: none;
   }
 
   /* Status bar */
@@ -293,13 +536,14 @@
     width: 100%;
     margin-top: 3rem;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     padding: 16px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.7rem;
     color: var(--text-muted);
     background: linear-gradient(transparent, var(--bg));
-    gap: 24px;
+    gap: 8px 24px;
     z-index: 2;
   }
 
@@ -324,15 +568,35 @@
     50% { opacity: 0.4; }
   }
 
+  @media (max-width: 700px) {
+    .pipeline { flex-direction: column; }
+    .stage + .stage { border-left: 1px solid var(--border); border-top: none; }
+    .stage:first-child { border-radius: 10px 10px 0 0; }
+    .stage:last-child { border-radius: 0 0 10px 10px; }
+  }
+
   @media (max-width: 600px) {
     .container { padding: 1.5rem; }
     .links { flex-direction: column; }
     .link-btn { justify-content: center; }
+    .term-body { font-size: 0.74rem; }
     .status { flex-direction: column; align-items: center; gap: 8px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
   }
 </style>
 </head>
 <body>
+
+<canvas id="net" aria-hidden="true"></canvas>
+<div class="progress" id="progress"></div>
 
 <div class="container">
   <div class="terminal-badge">
@@ -346,6 +610,11 @@
   <p class="subtitle">
     I'm Ayush. <strong>DevOps, software engineering &amp; robotics</strong> — hands-on builds, documented as I go. Below are projects I've already shipped; the DevOps ladder is next.
   </p>
+
+  <div class="term" aria-hidden="true">
+    <div class="term-bar"><i></i><i></i><i></i><span>ayush@build-box: ~</span></div>
+    <div class="term-body" id="term"></div>
+  </div>
 
   <div class="topics">
     <span class="pill">Docker</span>
@@ -373,9 +642,19 @@
     </a>
   </div>
 
-  <h2 class="section-title">~/projects</h2>
+  <h2 class="section-title reveal">pipeline --this-site</h2>
+  <p class="section-note reveal">Every change to this site goes through the same path: pull request, lint, merge, automatic deploy.</p>
 
-  <article class="project">
+  <ol class="pipeline reveal" id="pipeline">
+    <li class="stage done"><b><span class="dot"></span>commit</b><small>git push</small></li>
+    <li class="stage done"><b><span class="dot"></span>lint</b><small>html-validate</small></li>
+    <li class="stage done"><b><span class="dot"></span>merge</b><small>PR to main</small></li>
+    <li class="stage done"><b><span class="dot"></span>deploy</b><small>Cloudflare</small></li>
+  </ol>
+
+  <h2 class="section-title reveal">~/projects</h2>
+
+  <article class="project reveal">
     <h3>AAQR — Autonomous Air Quality Rover</h3>
     <p>A Roomba-based robot that navigates waypoints with ROS 2 and Nav2, pauses at each stop, and streams air quality readings from a Raspberry Pi sensor node to a Flask server with a live dashboard. Built in 2023–24 across two repos, now consolidated into one documented project.</p>
     <div class="tags">
@@ -389,7 +668,7 @@
     <a class="project-link" href="https://github.com/ayushs-dev/aaqr-rover" target="_blank" rel="noopener">View on GitHub →</a>
   </article>
 
-  <article class="project">
+  <article class="project reveal">
     <h3>GitHub Repo Analyzer</h3>
     <p>Type any public repo as owner/repo and get its stars, forks, language breakdown and top contributors. A FastAPI backend caches GitHub results in PostgreSQL for an hour, a React frontend renders them, and a single docker compose command runs the whole stack.</p>
     <div class="tags">
@@ -403,7 +682,7 @@
     <a class="project-link" href="https://github.com/ayushs-dev/Github-Repo-Analyzer" target="_blank" rel="noopener">View on GitHub →</a>
   </article>
 
-  <article class="project">
+  <article class="project reveal">
     <h3>MoodSick</h3>
     <p>A group project for CIS 600 (Social Media and Data Mining) built on the GTZAN music-genre dataset and a Spotify songs dataset. Ships with a one-command conda environment setup and a data exploration notebook.</p>
     <div class="tags">
@@ -414,13 +693,13 @@
     <a class="project-link" href="https://github.com/ayushs-dev/MoodSick" target="_blank" rel="noopener">View on GitHub →</a>
   </article>
 
-  <h2 class="section-title">~/next-up</h2>
+  <h2 class="section-title reveal">~/next-up</h2>
 
-  <ul class="roadmap">
-    <li class="pill">Deploy Repo Analyzer with CI/CD</li>
-    <li class="pill">Terraform on AWS</li>
-    <li class="pill">Kubernetes + Helm</li>
-    <li class="pill">Prometheus + Grafana</li>
+  <ul class="roadmap reveal">
+    <li class="job next"><span class="spin"></span>Deploy Repo Analyzer with CI/CD<span class="state">up next</span></li>
+    <li class="job"><span class="spin"></span>Terraform on AWS<span class="state">queued</span></li>
+    <li class="job"><span class="spin"></span>Kubernetes + Helm<span class="state">queued</span></li>
+    <li class="job"><span class="spin"></span>Prometheus + Grafana<span class="state">queued</span></li>
   </ul>
 </div>
 
@@ -434,9 +713,254 @@
     <span>site: live</span>
   </div>
   <div class="status-item">
+    <span id="ttfb">ttfb: --</span>
+  </div>
+  <div class="status-item">
+    <span id="uptime">session: 00:00</span>
+  </div>
+  <div class="status-item">
     <span>© 2026 ayushbuilds.dev</span>
   </div>
 </div>
+
+<script>
+(function () {
+  var doc = document.documentElement;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  doc.classList.add('js');
+
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+  /* ---------- Hero terminal: typed commands ---------- */
+  var term = document.getElementById('term');
+  var script = [
+    { cmd: 'whoami', out: ['<span class="hl">ayush</span> <span class="dim">· software engineer, DevOps in progress</span>'] },
+    { cmd: 'docker compose up -d', out: [
+      '<span class="ok">✔</span> db        <span class="dim">postgres:16</span>   <span class="ok">healthy</span>',
+      '<span class="ok">✔</span> api       <span class="dim">fastapi</span>        <span class="ok">running</span>',
+      '<span class="ok">✔</span> web       <span class="dim">react + vite</span>   <span class="ok">running</span>'
+    ] },
+    { cmd: 'git push origin main', out: [
+      '<span class="ok">✔</span> html-validate <span class="dim">passed</span>',
+      '<span class="ok">✔</span> deployed <span class="dim">→</span> <span class="hl">ayushbuilds.dev</span>'
+    ] },
+    { cmd: 'cat next-up.txt', out: [
+      '<span class="dim">terraform · kubernetes · helm · prometheus · grafana</span>'
+    ] }
+  ];
+
+  function line(html) {
+    var d = document.createElement('div');
+    d.innerHTML = html;
+    term.appendChild(d);
+    return d;
+  }
+
+  function trim() {
+    while (term.children.length > 9) term.removeChild(term.firstChild);
+  }
+
+  async function playTerminal() {
+    var caret = '<span class="caret"></span>';
+    while (true) {
+      for (var i = 0; i < script.length; i++) {
+        var step = script[i];
+        var row = line('<span class="ps">$</span> ' + caret);
+        for (var c = 1; c <= step.cmd.length; c++) {
+          row.innerHTML = '<span class="ps">$</span> ' + step.cmd.slice(0, c) + caret;
+          await sleep(38 + Math.random() * 45);
+        }
+        await sleep(350);
+        row.innerHTML = '<span class="ps">$</span> ' + step.cmd;
+        for (var o = 0; o < step.out.length; o++) {
+          line(step.out[o]);
+          await sleep(260);
+        }
+        trim();
+        await sleep(1100);
+      }
+      await sleep(1500);
+      term.textContent = '';
+    }
+  }
+
+  if (reduce) {
+    script.forEach(function (s) {
+      line('<span class="ps">$</span> ' + s.cmd);
+      s.out.forEach(line);
+    });
+  } else {
+    playTerminal();
+  }
+
+  /* ---------- Pipeline: cycle stages like a CI run ---------- */
+  var stages = Array.prototype.slice.call(document.querySelectorAll('#pipeline .stage'));
+  var pipeStarted = false;
+
+  async function playPipeline() {
+    while (true) {
+      stages.forEach(function (s) { s.className = 'stage wait'; });
+      await sleep(700);
+      for (var i = 0; i < stages.length; i++) {
+        stages[i].className = 'stage run';
+        await sleep(950);
+        stages[i].className = 'stage done';
+      }
+      await sleep(4000);
+    }
+  }
+
+  /* ---------- Scroll reveal and pipeline start ---------- */
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduce) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+        if (e.target.id === 'pipeline' && !pipeStarted) {
+          pipeStarted = true;
+          playPipeline();
+        }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ---------- Cursor spotlight on project cards ---------- */
+  document.querySelectorAll('.project').forEach(function (card) {
+    card.addEventListener('pointermove', function (e) {
+      var r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  /* ---------- Scroll progress bar ---------- */
+  var bar = document.getElementById('progress');
+  function onScroll() {
+    var max = doc.scrollHeight - window.innerHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? window.scrollY / max : 0) + ')';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ---------- Status bar: real TTFB and session timer ---------- */
+  var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+  if (nav && nav.responseStart) {
+    document.getElementById('ttfb').textContent = 'ttfb: ' + Math.round(nav.responseStart - nav.requestStart) + 'ms';
+  }
+  var t0 = Date.now();
+  var up = document.getElementById('uptime');
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  setInterval(function () {
+    var s = Math.floor((Date.now() - t0) / 1000);
+    up.textContent = 'session: ' + pad(Math.floor(s / 60)) + ':' + pad(s % 60);
+  }, 1000);
+
+  /* ---------- Background: network of nodes passing packets ---------- */
+  var canvas = document.getElementById('net');
+  var ctx = canvas.getContext('2d');
+  var W, H, nodes = [], packets = [];
+  var mouse = { x: -9999, y: -9999 };
+  var LINK = 150;
+
+  function resize() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var n = Math.max(16, Math.min(55, Math.round(W * H / 26000)));
+    nodes = [];
+    for (var i = 0; i < n; i++) {
+      nodes.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25
+      });
+    }
+    packets = [];
+  }
+
+  window.addEventListener('pointermove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener('pointerleave', function () { mouse.x = mouse.y = -9999; });
+  window.addEventListener('resize', function () {
+    resize();
+    if (reduce) frame();
+  });
+
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    var edges = [];
+
+    for (var i = 0; i < nodes.length; i++) {
+      var a = nodes[i];
+      if (!reduce) {
+        a.x += a.vx; a.y += a.vy;
+        if (a.x < 0 || a.x > W) a.vx *= -1;
+        if (a.y < 0 || a.y > H) a.vy *= -1;
+      }
+      for (var j = i + 1; j < nodes.length; j++) {
+        var b = nodes[j];
+        var d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < LINK) {
+          edges.push([i, j]);
+          ctx.strokeStyle = 'rgba(34, 211, 238,' + (0.16 * (1 - d / LINK)) + ')';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+      var md = Math.hypot(a.x - mouse.x, a.y - mouse.y);
+      var near = md < 170;
+      if (near) {
+        ctx.strokeStyle = 'rgba(74, 222, 128,' + (0.35 * (1 - md / 170)) + ')';
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.stroke();
+      }
+      ctx.fillStyle = near ? 'rgba(74, 222, 128, 0.9)' : 'rgba(34, 211, 238, 0.45)';
+      ctx.beginPath();
+      ctx.arc(a.x, a.y, near ? 2.6 : 1.8, 0, 6.2832);
+      ctx.fill();
+    }
+
+    if (!reduce) {
+      if (edges.length && packets.length < 14 && Math.random() < 0.08) {
+        var e = edges[Math.floor(Math.random() * edges.length)];
+        packets.push({ a: e[0], b: e[1], t: 0, green: Math.random() < 0.3 });
+      }
+      packets = packets.filter(function (p) {
+        p.t += 0.014;
+        var pa = nodes[p.a], pb = nodes[p.b];
+        if (p.t >= 1 || Math.hypot(pa.x - pb.x, pa.y - pb.y) > LINK) return false;
+        var x = pa.x + (pb.x - pa.x) * p.t;
+        var y = pa.y + (pb.y - pa.y) * p.t;
+        ctx.fillStyle = p.green ? 'rgba(74, 222, 128, 0.95)' : 'rgba(167, 139, 250, 0.95)';
+        ctx.shadowColor = ctx.fillStyle;
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(x, y, 2.2, 0, 6.2832);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        return true;
+      });
+      requestAnimationFrame(frame);
+    }
+  }
+
+  resize();
+  frame();
+})();
+</script>
 
 </body>
 </html>
