@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Projects | Ayush Builds</title>
+<meta name="description" content="Ayush Saxena's projects: a ROS 2 air quality rover, a FastAPI + Docker repo analyzer, and a music and mood data-mining project.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+
+<canvas id="net" aria-hidden="true"></canvas>
+<div class="progress" id="progress"></div>
+
+<main class="container page">
+  <a class="crumb" href="/"><span class="prompt">~</span><span>/projects</span></a>
+
+  <h1 class="page-title"><span class="highlight">Projects</span></h1>
+
+  <p class="lead">
+    Hands-on builds, documented as I go. Pick one to see how it works.
+  </p>
+
+  <a class="project reveal" href="/projects/aaqr">
+    <h3>AAQR — Autonomous Air Quality Rover</h3>
+    <p>A Roomba-based robot that navigates waypoints with ROS 2 and Nav2, pauses at each stop, and streams air quality readings from a Raspberry Pi sensor node to a Flask server with a live dashboard. Built in 2023–24 across two repos, now consolidated into one documented project.</p>
+    <div class="tags">
+      <span class="tag">ROS 2</span>
+      <span class="tag">Nav2</span>
+      <span class="tag">Python</span>
+      <span class="tag">Flask</span>
+      <span class="tag">SQLite</span>
+      <span class="tag">Raspberry Pi</span>
+    </div>
+    <span class="project-link">Read the write-up →</span>
+  </a>
+
+  <a class="project reveal" href="/projects/repo-analyzer">
+    <h3>GitHub Repo Analyzer</h3>
+    <p>Type any public repo as owner/repo and get its stars, forks, language breakdown and top contributors. A FastAPI backend caches GitHub results in PostgreSQL for an hour, a React frontend renders them, and a single docker compose command runs the whole stack.</p>
+    <div class="tags">
+      <span class="tag">FastAPI</span>
+      <span class="tag">PostgreSQL</span>
+      <span class="tag">React</span>
+      <span class="tag">Vite</span>
+      <span class="tag">Tailwind</span>
+      <span class="tag">Docker Compose</span>
+    </div>
+    <span class="project-link">Read the write-up →</span>
+  </a>
+
+  <a class="project reveal" href="/projects/moodsick">
+    <h3>MoodSick</h3>
+    <p>A group project for CIS 600 (Social Media and Data Mining) built on the GTZAN music-genre dataset and a Spotify songs dataset. Ships with a one-command conda environment setup and a data exploration notebook.</p>
+    <div class="tags">
+      <span class="tag">Python</span>
+      <span class="tag">Jupyter</span>
+      <span class="tag">Conda</span>
+    </div>
+    <span class="project-link">Read the write-up →</span>
+  </a>
+
+  <div class="back-row">
+    <a href="/" class="link-btn secondary">← Home</a>
+  </div>
+</main>
+
+<div class="status">
+  <div class="status-item"><span>© 2026 ayushbuilds.dev</span></div>
+</div>
+
+<script src="/assets/site.js" defer></script>
+</body>
+</html>
