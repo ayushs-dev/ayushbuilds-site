@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>MoodSick | Ayush Builds</title>
+<meta name="description" content="A CIS 600 (Social Media and Data Mining) group project built on the GTZAN music-genre dataset and a Spotify songs dataset, run as a Docker Compose stack.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+
+<canvas id="net" aria-hidden="true"></canvas>
+<div class="progress" id="progress"></div>
+
+<main class="container page">
+  <a class="crumb" href="/"><span class="prompt">~</span><span>/projects/moodsick</span></a>
+
+  <h1 class="page-title"><span class="highlight">MoodSick</span></h1>
+
+  <p class="lead">
+    A group project for CIS 600 (Social Media and Data Mining) that explores how mood relates to music. It builds on the GTZAN music-genre dataset and a Spotify songs dataset, and runs as a set of containers on a shared Docker network.
+  </p>
+
+  <div class="tags">
+    <span class="tag">Python</span>
+    <span class="tag">Jupyter</span>
+    <span class="tag">Docker</span>
+    <span class="tag">MongoDB</span>
+    <span class="tag">Spotify API</span>
+  </div>
+
+  <div class="links">
+    <a href="https://github.com/ayushs-dev/MoodSick" class="link-btn primary" target="_blank" rel="noopener">View on GitHub</a>
+    <a href="/" class="link-btn secondary">← All projects</a>
+  </div>
+
+  <h2 class="section-title reveal">architecture</h2>
+
+  <p class="body reveal">Docker keeps everyone on the team on the same environment, so nobody hits dependency problems. The compose file creates a network called <code class="inline">moodSickNetwork</code> that connects four services.</p>
+
+  <div class="table-wrap reveal">
+    <table class="spec">
+      <thead><tr><th scope="col">Service</th><th scope="col">Address</th></tr></thead>
+      <tbody>
+        <tr><td>Frontend</td><td>localhost:3000</td></tr>
+        <tr><td>Middleware</td><td>localhost:8080</td></tr>
+        <tr><td>ML model</td><td>localhost:5000</td></tr>
+        <tr><td>Database</td><td>localhost:27018</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="body reveal">The middleware talks to the Spotify API, and the ML model reads its vectors from a hosted MongoDB Atlas database. Credentials live in per-service <code class="inline">.env</code> files, kept out of the repo.</p>
+
+  <h2 class="section-title reveal">run it</h2>
+
+  <pre class="code reveal">git clone https://github.com/ayushs-dev/MoodSick.git
+cd MoodSick/docker
+
+docker-compose build
+docker-compose up</pre>
+
+  <h2 class="section-title reveal">data exploration</h2>
+
+  <p class="body reveal">Before building the services, the team explored the data in Jupyter notebooks: an initial exploration of the datasets, a look at mood and genre dynamics on Spotify, and an autoencoder experiment.</p>
+
+  <p class="body reveal"><strong>Datasets:</strong> GTZAN (music genres) and a Spotify songs dataset, both from Kaggle.</p>
+
+  <div class="back-row">
+    <a href="/" class="link-btn secondary">← All projects</a>
+  </div>
+</main>
+
+<div class="status">
+  <div class="status-item"><span>© 2026 ayushbuilds.dev</span></div>
+</div>
+
+<script src="/assets/site.js" defer></script>
+</body>
+</html>
