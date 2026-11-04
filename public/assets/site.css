@@ -775,6 +775,14 @@ a.project:focus-visible, .crumb:focus-visible, .link-btn:focus-visible {
   pointer-events: none;
 }
 
+.stage-hint {
+  text-align: center;
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+}
+
 @media (max-width: 600px) {
   .stage { height: clamp(380px, 56vh, 480px); }
   .node-label { padding: 5px 9px; column-gap: 6px; }
