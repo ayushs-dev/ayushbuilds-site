@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>GitHub Repo Analyzer | Ayush Builds</title>
+<meta name="description" content="Type any public GitHub repo and get its stars, forks, language breakdown and top contributors. FastAPI, PostgreSQL, React and Docker Compose.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+
+<canvas id="net" aria-hidden="true"></canvas>
+<div class="progress" id="progress"></div>
+
+<main class="container page">
+  <a class="crumb" href="/"><span class="prompt">~</span><span>/projects/repo-analyzer</span></a>
+
+  <h1 class="page-title">GitHub <span class="highlight">Repo Analyzer</span></h1>
+
+  <p class="lead">
+    Type any public repo as <code class="inline">owner/repo</code> and see what is really going on inside it: stars, forks, open issues, language breakdown and top contributors. Repeat searches are instant because results are cached.
+  </p>
+
+  <div class="tags">
+    <span class="tag">FastAPI</span>
+    <span class="tag">PostgreSQL</span>
+    <span class="tag">React</span>
+    <span class="tag">Vite</span>
+    <span class="tag">Tailwind</span>
+    <span class="tag">Docker Compose</span>
+  </div>
+
+  <div class="links">
+    <a href="https://github.com/ayushs-dev/Github-Repo-Analyzer" class="link-btn primary" target="_blank" rel="noopener">View on GitHub</a>
+    <a href="/" class="link-btn secondary">← All projects</a>
+  </div>
+
+  <h2 class="section-title reveal">what it does</h2>
+
+  <ol class="steps reveal">
+    <li><span><strong>Search</strong> any public repository by typing <code class="inline">owner/repo</code>, like <code class="inline">facebook/react</code>.</span></li>
+    <li><span><strong>See the numbers</strong> at a glance: stars, forks, open issues and watchers.</span></li>
+    <li><span><strong>Read the codebase</strong> through a visual language breakdown.</span></li>
+    <li><span><strong>Meet the people</strong> behind it with top contributors, their avatars and commit counts.</span></li>
+  </ol>
+
+  <h2 class="section-title reveal">how it's built</h2>
+
+  <div class="cards reveal">
+    <div class="card">
+      <h3>backend / fastapi</h3>
+      <p>Handles API requests, talks to GitHub and manages the database. Async, fast, and generates API docs automatically.</p>
+    </div>
+    <div class="card">
+      <h3>database / postgresql</h3>
+      <p>Stores analyzed repos so GitHub's API isn't hit on every request. Results are cached for 1 hour, then refreshed automatically.</p>
+    </div>
+    <div class="card">
+      <h3>frontend / react + vite</h3>
+      <p>Reusable components: search bar, stats card, language bar, contributor list. Styled with Tailwind, with instant hot reload from Vite.</p>
+    </div>
+    <div class="card">
+      <h3>infra / docker compose</h3>
+      <p>Frontend, backend and database each run in a container. One command starts the whole stack.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title reveal">run it locally</h2>
+
+  <p class="body reveal">You need Docker Desktop and a GitHub personal access token with the <code class="inline">read:public_repo</code> scope.</p>
+
+  <pre class="code reveal"><span class="c"># get the code</span>
+git clone https://github.com/ayushs-dev/Github-Repo-Analyzer.git
+cd Github-Repo-Analyzer
+
+<span class="c"># backend/.env</span>
+GITHUB_TOKEN=<span class="s">your_token_here</span>
+GITHUB_API_BASE=<span class="s">https://api.github.com</span>
+DATABASE_URL=<span class="s">postgresql+asyncpg://postgres:postgres@db:5432/repoanalyzer</span>
+
+<span class="c"># start frontend, backend and database</span>
+docker compose up --build
+<span class="c"># then open http://localhost:5173</span></pre>
+
+  <h2 class="section-title reveal">project structure</h2>
+
+  <pre class="code reveal">github-repo-analyzer/
+├── backend/             <span class="c"># FastAPI application</span>
+│   ├── app/
+│   │   ├── main.py      <span class="c"># entry point</span>
+│   │   ├── database.py  <span class="c"># database connection</span>
+│   │   ├── models/      <span class="c"># table definitions</span>
+│   │   ├── schemas/     <span class="c"># request/response shapes</span>
+│   │   ├── routers/     <span class="c"># API endpoints</span>
+│   │   └── services/    <span class="c"># GitHub client + config</span>
+│   └── alembic/         <span class="c"># database migrations</span>
+├── frontend/src/        <span class="c"># React app and components</span>
+└── docker-compose.yml   <span class="c"># runs everything together</span></pre>
+
+  <h2 class="section-title reveal">what i learned</h2>
+
+  <ol class="steps reveal">
+    <li><span>Building an async REST API with FastAPI.</span></li>
+    <li><span>How database caching works, and why it matters.</span></li>
+    <li><span>How React components talk to a backend.</span></li>
+    <li><span>How Docker Compose connects multiple services together.</span></li>
+    <li><span>Debugging real errors in a real stack. There were many.</span></li>
+  </ol>
+
+  <div class="back-row">
+    <a href="/" class="link-btn secondary">← All projects</a>
+  </div>
+</main>
+
+<div class="status">
+  <div class="status-item"><span>© 2026 ayushbuilds.dev</span></div>
+</div>
+
+<script src="/assets/site.js" defer></script>
+</body>
+</html>

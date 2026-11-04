@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>AAQR — Autonomous Air Quality Rover | Ayush Builds</title>
+<meta name="description" content="A Roomba-based robot that navigates waypoints with ROS 2 and Nav2 and streams air quality readings from a Raspberry Pi sensor node to a Flask server with a live dashboard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+
+<canvas id="net" aria-hidden="true"></canvas>
+<div class="progress" id="progress"></div>
+
+<main class="container page">
+  <a class="crumb" href="/"><span class="prompt">~</span><span>/projects/aaqr</span></a>
+
+  <h1 class="page-title">AAQR — <span class="highlight">Autonomous Air Quality Rover</span></h1>
+
+  <p class="lead">
+    A robot that drives a route on its own, stops at each waypoint, and measures the air. It combines ROS 2 navigation with a distributed sensor pipeline on Raspberry Pi hardware, mounted on a Roomba chassis. Built in 2023–24 across two repos, now one documented project.
+  </p>
+
+  <div class="tags">
+    <span class="tag">ROS 2</span>
+    <span class="tag">Nav2</span>
+    <span class="tag">Python</span>
+    <span class="tag">Flask</span>
+    <span class="tag">SQLite</span>
+    <span class="tag">Raspberry Pi</span>
+  </div>
+
+  <div class="links">
+    <a href="https://github.com/ayushs-dev/aaqr-rover" class="link-btn primary" target="_blank" rel="noopener">View on GitHub</a>
+    <a href="/" class="link-btn secondary">← All projects</a>
+  </div>
+
+  <h2 class="section-title reveal">how it works</h2>
+
+  <ol class="steps reveal">
+    <li><span><strong>Record a route.</strong> Drive the robot to each location and save its pose with a keypress. Poses are written to a YAML file per map.</span></li>
+    <li><span><strong>Navigate.</strong> Nav2 drives the robot through the saved waypoints in order.</span></li>
+    <li><span><strong>Pause and sample.</strong> At every waypoint the robot waits 5 seconds while the onboard sensor node reads the air.</span></li>
+    <li><span><strong>Stream.</strong> Readings go over HTTP as JSON to a Flask server on a second Raspberry Pi.</span></li>
+    <li><span><strong>Store and correlate.</strong> The server saves everything to a timestamped SQLite database and ties readings to the robot's physical position.</span></li>
+  </ol>
+
+  <h2 class="section-title reveal">three components</h2>
+
+  <div class="cards reveal">
+    <div class="card">
+      <h3>navigation/</h3>
+      <p>ROS 2 package on a TurtleBot4: a waypoint recorder, an autonomous navigator, and a TF2 listener that publishes the robot's position.</p>
+    </div>
+    <div class="card">
+      <h3>sensor/</h3>
+      <p>A script on a Raspberry Pi Zero that reads every Enviro+ sensor, shows values on an LCD, and POSTs JSON to the server.</p>
+    </div>
+    <div class="card">
+      <h3>server/</h3>
+      <p>A Flask app on a Raspberry Pi 4 that receives readings, stores them in SQLite, and serves a live dashboard.</p>
+    </div>
+  </div>
+
+  <h2 class="section-title reveal">what it measures</h2>
+
+  <div class="table-wrap reveal">
+    <table class="spec">
+      <thead><tr><th scope="col">Sensor</th><th scope="col">Measurement</th></tr></thead>
+      <tbody>
+        <tr><td>BME280</td><td>Temperature, pressure, humidity</td></tr>
+        <tr><td>PMS5003</td><td>Particulate matter: PM1, PM2.5, PM10</td></tr>
+        <tr><td>Enviro+ gas</td><td>Oxidising, reducing and NH3 compounds</td></tr>
+        <tr><td>LTR559</td><td>Proximity and ambient light</td></tr>
+        <tr><td>ST7735 LCD</td><td>Live readout on the robot</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section-title reveal">server api</h2>
+
+  <div class="table-wrap reveal">
+    <table class="spec">
+      <thead><tr><th scope="col">Endpoint</th><th scope="col">Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>POST /send-data</td><td>Receives sensor JSON from the Pi Zero</td></tr>
+        <tr><td>GET /data</td><td>Last 5 minutes of readings as JSON</td></tr>
+        <tr><td>GET /view-live-data</td><td>Live sensor dashboard</td></tr>
+        <tr><td>GET /view-timestamp-data</td><td>Sensor averages per waypoint</td></tr>
+        <tr><td>GET /health</td><td>Server health check</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section-title reveal">waypoint file</h2>
+
+  <p class="body reveal">Saved poses are plain YAML, so a route is easy to read, edit and version.</p>
+
+  <pre class="code reveal"><span class="k">1</span>:
+  position:    {x: 1.23, y: 4.56, z: 0.0}
+  orientation: {x: 0.0, y: 0.0, z: 0.707, w: 0.707}
+<span class="k">2</span>:
+  position:    {x: 2.10, y: 1.80, z: 0.0}
+  orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}</pre>
+
+  <div class="back-row">
+    <a href="/" class="link-btn secondary">← All projects</a>
+  </div>
+</main>
+
+<div class="status">
+  <div class="status-item"><span>© 2026 ayushbuilds.dev</span></div>
+</div>
+
+<script src="/assets/site.js" defer></script>
+</body>
+</html>

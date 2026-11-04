@@ -16,10 +16,10 @@ npx --yes serve public
 ## Lint locally
 
 ```bash
-npx --yes html-validate@9 "public/*.html"
+npx --yes html-validate@9 "public/**/*.html"
 ```
 
 ## Layout
 
-- `public/` holds the site files that get uploaded.
+- `public/` holds the site files that get uploaded: `index.html` (home), `projects/` (one page per project) and `assets/` (shared CSS and JS).
 - `wrangler.jsonc` tells Cloudflare the Worker name and that `public/` is the static assets directory.
