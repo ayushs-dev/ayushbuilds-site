@@ -71,7 +71,7 @@
     50% { transform: translate(-80px, 60px); }
   }
 
-  /* Live network canvas: nodes, links and packets */
+  /* Scrolling code background */
   #net {
     position: fixed;
     inset: 0;
@@ -80,7 +80,7 @@
     pointer-events: none;
   }
 
-  /* Scroll progress, styled like a pipeline run bar */
+  /* Scroll progress bar */
   .progress {
     position: fixed;
     top: 0;
@@ -325,72 +325,6 @@
     color: var(--green);
   }
 
-  .section-note {
-    color: var(--text-muted);
-    font-weight: 300;
-    line-height: 1.7;
-    margin: -0.5rem 0 1.5rem;
-    max-width: 560px;
-  }
-
-  /* CI/CD pipeline for this site */
-  .pipeline {
-    display: flex;
-    align-items: stretch;
-    list-style: none;
-    gap: 0;
-  }
-
-  .stage {
-    position: relative;
-    flex: 1;
-    padding: 14px 12px 14px 14px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    font-family: 'JetBrains Mono', monospace;
-    transition: border-color 0.4s ease, background 0.4s ease;
-  }
-
-  .stage + .stage { border-left: none; }
-  .stage:first-child { border-radius: 10px 0 0 10px; }
-  .stage:last-child { border-radius: 0 10px 10px 0; }
-
-  .stage b {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.78rem;
-    font-weight: 500;
-    margin-bottom: 4px;
-  }
-
-  .stage small {
-    display: block;
-    font-size: 0.66rem;
-    color: var(--text-muted);
-  }
-
-  .stage .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--green);
-    flex: none;
-  }
-
-  .stage.run {
-    border-color: var(--orange);
-    background: rgba(251, 146, 60, 0.07);
-  }
-
-  .stage.run .dot {
-    background: var(--orange);
-    animation: pulse 0.8s ease-in-out infinite;
-  }
-
-  .stage.wait .dot { background: var(--border); }
-  .stage.done { border-color: rgba(74, 222, 128, 0.35); }
-
   /* Projects */
   .project {
     --mx: 50%;
@@ -463,61 +397,6 @@
 
   .project-link:hover { text-decoration: underline; }
 
-  /* Roadmap queue */
-  .roadmap {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    list-style: none;
-  }
-
-  .job {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-  }
-
-  .job .state {
-    margin-left: auto;
-    font-size: 0.68rem;
-    padding: 2px 10px;
-    border-radius: 100px;
-    border: 1px solid var(--border);
-  }
-
-  .job.next {
-    color: var(--text);
-    border-color: rgba(251, 146, 60, 0.45);
-  }
-
-  .job.next .state {
-    color: var(--orange);
-    border-color: rgba(251, 146, 60, 0.45);
-  }
-
-  .job .spin {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    border: 2px solid var(--border);
-    flex: none;
-  }
-
-  .job.next .spin {
-    border-color: rgba(251, 146, 60, 0.25);
-    border-top-color: var(--orange);
-    animation: spin 0.9s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
   /* Scroll reveal, only armed when JS is running */
   .js .reveal {
     opacity: 0;
@@ -568,13 +447,6 @@
     50% { opacity: 0.4; }
   }
 
-  @media (max-width: 700px) {
-    .pipeline { flex-direction: column; }
-    .stage + .stage { border-left: 1px solid var(--border); border-top: none; }
-    .stage:first-child { border-radius: 10px 10px 0 0; }
-    .stage:last-child { border-radius: 0 0 10px 10px; }
-  }
-
   @media (max-width: 600px) {
     .container { padding: 1.5rem; }
     .links { flex-direction: column; }
@@ -608,7 +480,7 @@
   <h1>I build it.<br><span class="highlight">Then I write it up.</span></h1>
 
   <p class="subtitle">
-    I'm Ayush. <strong>DevOps, software engineering &amp; robotics</strong> — hands-on builds, documented as I go. Below are projects I've already shipped; the DevOps ladder is next.
+    I'm Ayush. <strong>DevOps, software engineering &amp; robotics</strong> — hands-on builds, documented as I go. Below are projects I've shipped.
   </p>
 
   <div class="term" aria-hidden="true">
@@ -641,16 +513,6 @@
       Contact
     </a>
   </div>
-
-  <h2 class="section-title reveal">pipeline --this-site</h2>
-  <p class="section-note reveal">Every change to this site goes through the same path: pull request, lint, merge, automatic deploy.</p>
-
-  <ol class="pipeline reveal" id="pipeline">
-    <li class="stage done"><b><span class="dot"></span>commit</b><small>git push</small></li>
-    <li class="stage done"><b><span class="dot"></span>lint</b><small>html-validate</small></li>
-    <li class="stage done"><b><span class="dot"></span>merge</b><small>PR to main</small></li>
-    <li class="stage done"><b><span class="dot"></span>deploy</b><small>Cloudflare</small></li>
-  </ol>
 
   <h2 class="section-title reveal">~/projects</h2>
 
@@ -693,14 +555,6 @@
     <a class="project-link" href="https://github.com/ayushs-dev/MoodSick" target="_blank" rel="noopener">View on GitHub →</a>
   </article>
 
-  <h2 class="section-title reveal">~/next-up</h2>
-
-  <ul class="roadmap reveal">
-    <li class="job next"><span class="spin"></span>Deploy Repo Analyzer with CI/CD<span class="state">up next</span></li>
-    <li class="job"><span class="spin"></span>Terraform on AWS<span class="state">queued</span></li>
-    <li class="job"><span class="spin"></span>Kubernetes + Helm<span class="state">queued</span></li>
-    <li class="job"><span class="spin"></span>Prometheus + Grafana<span class="state">queued</span></li>
-  </ul>
 </div>
 
 <div class="status">
@@ -744,8 +598,8 @@
       '<span class="ok">✔</span> html-validate <span class="dim">passed</span>',
       '<span class="ok">✔</span> deployed <span class="dim">→</span> <span class="hl">ayushbuilds.dev</span>'
     ] },
-    { cmd: 'cat next-up.txt', out: [
-      '<span class="dim">terraform · kubernetes · helm · prometheus · grafana</span>'
+    { cmd: 'cat stack.txt', out: [
+      '<span class="dim">docker · fastapi · postgres · ros2 · python · linux</span>'
     ] }
   ];
 
@@ -793,24 +647,7 @@
     playTerminal();
   }
 
-  /* ---------- Pipeline: cycle stages like a CI run ---------- */
-  var stages = Array.prototype.slice.call(document.querySelectorAll('#pipeline .stage'));
-  var pipeStarted = false;
-
-  async function playPipeline() {
-    while (true) {
-      stages.forEach(function (s) { s.className = 'stage wait'; });
-      await sleep(700);
-      for (var i = 0; i < stages.length; i++) {
-        stages[i].className = 'stage run';
-        await sleep(950);
-        stages[i].className = 'stage done';
-      }
-      await sleep(4000);
-    }
-  }
-
-  /* ---------- Scroll reveal and pipeline start ---------- */
+  /* ---------- Scroll reveal ---------- */
   var reveals = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && !reduce) {
     var io = new IntersectionObserver(function (entries) {
@@ -818,10 +655,6 @@
         if (!e.isIntersecting) return;
         e.target.classList.add('in');
         io.unobserve(e.target);
-        if (e.target.id === 'pipeline' && !pipeStarted) {
-          pipeStarted = true;
-          playPipeline();
-        }
       });
     }, { threshold: 0.15 });
     reveals.forEach(function (el) { io.observe(el); });
@@ -860,12 +693,51 @@
     up.textContent = 'session: ' + pad(Math.floor(s / 60)) + ':' + pad(s % 60);
   }, 1000);
 
-  /* ---------- Background: network of nodes passing packets ---------- */
+  /* ---------- Background: scrolling code, lit up near the cursor ---------- */
   var canvas = document.getElementById('net');
   var ctx = canvas.getContext('2d');
-  var W, H, nodes = [], packets = [];
+  var W, H, cols = [];
   var mouse = { x: -9999, y: -9999 };
-  var LINK = 150;
+  var FS = 13, LH = 19, CW = 7.8, GLOW = 220;
+
+  var SNIPPETS = [
+    ['FROM python:3.12-slim', 'WORKDIR /app', 'COPY requirements.txt .', 'RUN pip install --no-cache-dir -r requirements.txt', 'COPY . .', 'EXPOSE 8000', 'CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0"]'],
+    ['services:', '  db:', '    image: postgres:16', '    healthcheck:', '      test: ["CMD", "pg_isready"]', '  api:', '    build: ./backend', '    depends_on:', '      db:', '        condition: service_healthy'],
+    ['#!/usr/bin/env bash', 'set -euo pipefail', '# build, test, ship', 'docker compose build', 'docker compose up -d', 'curl -fsS localhost:8000/health', 'docker compose logs -f api'],
+    ['@app.get("/repo/{owner}/{name}")', 'async def repo(owner: str, name: str):', '    cached = await cache.get(owner, name)', '    if cached:', '        return cached', '    data = await github.fetch(owner, name)', '    await cache.set(owner, name, data)', '    return data'],
+    ['def navigate(waypoints):', '    for wp in waypoints:', '        nav.go_to_pose(wp)', '        while not nav.is_task_complete():', '            rclpy.spin_once(node)', '        sample = sensor.read()', '        post(sample)'],
+    ['on:', '  pull_request:', 'jobs:', '  lint:', '    runs-on: ubuntu-latest', '    steps:', '      - uses: actions/checkout@v4', '      - run: npx html-validate "public/*.html"'],
+    ['$ ssh pi@rover.local', '$ systemctl status sensor-node', '$ journalctl -u sensor-node -n 20', '$ ros2 topic echo /aqi', '$ git log --oneline -5', '$ docker ps --format "{{.Names}}"'],
+    ['SELECT language, SUM(bytes)', 'FROM repo_languages', 'WHERE fetched_at > now() - interval \'1 hour\'', 'GROUP BY language', 'ORDER BY 2 DESC;']
+  ];
+
+  function tone(t) {
+    var x = t.trim();
+    if (!x) return [34, 211, 238];
+    if (x[0] === '#' && x[1] !== '!' || x.indexOf('//') === 0) return [107, 107, 118];
+    if (x[0] === '$' || x.indexOf('#!') === 0) return [74, 222, 128];
+    if (/^(FROM|RUN|CMD|COPY|WORKDIR|EXPOSE|def|async|return|if|while|for|SELECT|FROM|WHERE|GROUP|ORDER|on:|jobs:|services:)/.test(x)) return [167, 139, 250];
+    if (/["']/.test(x)) return [74, 222, 128];
+    return [34, 211, 238];
+  }
+
+  function buildColumn(x) {
+    var lines = [];
+    var n = 3 + Math.floor(Math.random() * 3);
+    for (var k = 0; k < n; k++) {
+      var sn = SNIPPETS[Math.floor(Math.random() * SNIPPETS.length)];
+      for (var l = 0; l < sn.length; l++) lines.push({ t: sn[l], c: tone(sn[l]) });
+      lines.push({ t: '', c: [34, 211, 238] });
+    }
+    return {
+      x: x,
+      lines: lines,
+      off: Math.random() * lines.length * LH,
+      speed: 0.12 + Math.random() * 0.35,
+      dir: Math.random() < 0.25 ? -1 : 1,
+      alpha: 0.045 + Math.random() * 0.05
+    };
+  }
 
   function resize() {
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -874,17 +746,11 @@
     canvas.width = W * dpr;
     canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var n = Math.max(16, Math.min(55, Math.round(W * H / 26000)));
-    nodes = [];
-    for (var i = 0; i < n; i++) {
-      nodes.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25
-      });
-    }
-    packets = [];
+    ctx.font = FS + 'px "JetBrains Mono", monospace';
+    ctx.textBaseline = 'top';
+    cols = [];
+    var colW = W < 700 ? 300 : 330;
+    for (var x = 12; x < W; x += colW) cols.push(buildColumn(x));
   }
 
   window.addEventListener('pointermove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; });
@@ -896,65 +762,24 @@
 
   function frame() {
     ctx.clearRect(0, 0, W, H);
-    var edges = [];
-
-    for (var i = 0; i < nodes.length; i++) {
-      var a = nodes[i];
-      if (!reduce) {
-        a.x += a.vx; a.y += a.vy;
-        if (a.x < 0 || a.x > W) a.vx *= -1;
-        if (a.y < 0 || a.y > H) a.vy *= -1;
+    for (var i = 0; i < cols.length; i++) {
+      var col = cols[i];
+      var total = col.lines.length * LH;
+      if (!reduce) col.off = (col.off + col.speed * col.dir + total) % total;
+      var first = Math.floor(col.off / LH);
+      var y0 = -(col.off % LH);
+      for (var r = 0; y0 + r * LH < H; r++) {
+        var ln = col.lines[(first + r) % col.lines.length];
+        if (!ln.t) continue;
+        var y = y0 + r * LH;
+        var near = Math.hypot(col.x + ln.t.length * CW / 2 - mouse.x, y - mouse.y);
+        var boost = near < GLOW ? 1 - near / GLOW : 0;
+        var a = col.alpha + boost * 0.55;
+        ctx.fillStyle = 'rgba(' + ln.c[0] + ',' + ln.c[1] + ',' + ln.c[2] + ',' + a + ')';
+        ctx.fillText(ln.t, col.x, y);
       }
-      for (var j = i + 1; j < nodes.length; j++) {
-        var b = nodes[j];
-        var d = Math.hypot(a.x - b.x, a.y - b.y);
-        if (d < LINK) {
-          edges.push([i, j]);
-          ctx.strokeStyle = 'rgba(34, 211, 238,' + (0.16 * (1 - d / LINK)) + ')';
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
-        }
-      }
-      var md = Math.hypot(a.x - mouse.x, a.y - mouse.y);
-      var near = md < 170;
-      if (near) {
-        ctx.strokeStyle = 'rgba(74, 222, 128,' + (0.35 * (1 - md / 170)) + ')';
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(mouse.x, mouse.y);
-        ctx.stroke();
-      }
-      ctx.fillStyle = near ? 'rgba(74, 222, 128, 0.9)' : 'rgba(34, 211, 238, 0.45)';
-      ctx.beginPath();
-      ctx.arc(a.x, a.y, near ? 2.6 : 1.8, 0, 6.2832);
-      ctx.fill();
     }
-
-    if (!reduce) {
-      if (edges.length && packets.length < 14 && Math.random() < 0.08) {
-        var e = edges[Math.floor(Math.random() * edges.length)];
-        packets.push({ a: e[0], b: e[1], t: 0, green: Math.random() < 0.3 });
-      }
-      packets = packets.filter(function (p) {
-        p.t += 0.014;
-        var pa = nodes[p.a], pb = nodes[p.b];
-        if (p.t >= 1 || Math.hypot(pa.x - pb.x, pa.y - pb.y) > LINK) return false;
-        var x = pa.x + (pb.x - pa.x) * p.t;
-        var y = pa.y + (pb.y - pa.y) * p.t;
-        ctx.fillStyle = p.green ? 'rgba(74, 222, 128, 0.95)' : 'rgba(167, 139, 250, 0.95)';
-        ctx.shadowColor = ctx.fillStyle;
-        ctx.shadowBlur = 8;
-        ctx.beginPath();
-        ctx.arc(x, y, 2.2, 0, 6.2832);
-        ctx.fill();
-        ctx.shadowBlur = 0;
-        return true;
-      });
-      requestAnimationFrame(frame);
-    }
+    if (!reduce) requestAnimationFrame(frame);
   }
 
   resize();
