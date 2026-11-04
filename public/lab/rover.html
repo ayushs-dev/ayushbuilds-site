@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Rover tour prototype | Ayush Builds</title>
+<meta name="description" content="Prototype of a 3D rover tour for the home page.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+
+<canvas id="net" aria-hidden="true"></canvas>
+<div class="progress" id="progress"></div>
+
+<main class="lab-main">
+<div class="container page">
+  <a class="crumb" href="/"><span class="prompt">~</span><span>/lab/rover</span></a>
+
+  <h1 class="page-title">Rover tour <span class="highlight">prototype</span></h1>
+
+  <p class="lead">
+    A first look at a possible home page hero. The rover drives between project waypoints and pauses at each one for 5 seconds, like the real AAQR robot. Click a pad to send it there.
+  </p>
+</div>
+
+<div class="stage-wrap">
+  <div class="stage" id="stage">
+    <canvas id="rover-canvas" aria-hidden="true"></canvas>
+
+    <a class="node-label" href="/projects/aaqr"><span class="dot"></span><span class="name">AAQR</span><span class="sub">ROS 2 · Nav2</span></a>
+    <a class="node-label green" href="/projects/repo-analyzer"><span class="dot"></span><span class="name">Repo Analyzer</span><span class="sub">FastAPI · Docker</span></a>
+    <a class="node-label purple" href="/projects/moodsick"><span class="dot"></span><span class="name">MoodSick</span><span class="sub">Python · data</span></a>
+
+    <p class="stage-msg">3D isn't available in this browser. Use the links below.</p>
+  </div>
+</div>
+
+<div class="container page">
+  <div class="links">
+    <a href="/projects/aaqr" class="link-btn secondary">AAQR</a>
+    <a href="/projects/repo-analyzer" class="link-btn secondary">Repo Analyzer</a>
+    <a href="/projects/moodsick" class="link-btn secondary">MoodSick</a>
+  </div>
+
+  <div class="back-row">
+    <a href="/" class="link-btn secondary">← Home</a>
+  </div>
+</div>
+</main>
+
+<div class="status">
+  <div class="status-item"><span>© 2026 ayushbuilds.dev</span></div>
+</div>
+
+<script src="/assets/site.js" defer></script>
+<script type="module" src="/assets/rover.js"></script>
+</body>
+</html>
