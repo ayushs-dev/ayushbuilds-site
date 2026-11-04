@@ -640,3 +640,35 @@ a.project:focus-visible, .crumb:focus-visible, .link-btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
+
+/* ---------- Home sections ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.section-lead {
+  color: var(--text-muted);
+  font-weight: 300;
+  line-height: 1.7;
+  margin: -0.5rem 0 1.25rem;
+  max-width: 520px;
+}
+
+.soon {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.soon-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+  animation: pulse 1.4s ease-in-out infinite;
+}
